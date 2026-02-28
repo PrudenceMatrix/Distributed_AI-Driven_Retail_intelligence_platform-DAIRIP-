@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Supermarket POS</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header>
+    <h2>Smart Supermarket POS</h2>
+    <a href="admin.html" class="admin-link">Admin Panel</a>
+</header>
+
+<div class="container">
+
+    <!-- LEFT PANEL -->
+    <section class="left-panel">
+
+        <h3>Scan Product</h3>
+
+        <div class="scanner-section">
+            <video id="video" autoplay playsinline></video>
+            <input type="text" id="barcodeInput" placeholder="Scan or enter barcode">
+            
+            <div class="scanner-buttons">
+                <button id="startScanBtn">Start Scanner</button>
+                <button id="stopScanBtn" class="danger">Stop Scanner</button>
+                <button id="searchBtn">Search Product</button>
+            </div>
+        </div>
+
+        <div class="product-display" id="productDisplay">
+            <h4>Product Details</h4>
+            <p>No product selected</p>
+        </div>
+
+    </section>
+
+    <!-- RIGHT PANEL -->
+    <section class="right-panel">
+
+        <h3>Cart</h3>
+        <div id="cartList"></div>
+
+        <div class="total">
+            Total: KES <span id="totalAmount">0</span>
+        </div>
+
+        <button class="checkout-btn" id="checkoutBtn">Pay with M-Pesa</button>
+
+    </section>
+
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkoutModal">
+    <div class="modal-content">
+        <h3>Checkout</h3>
+        <p>Total: KES <span id="modalTotal"></span></p>
+        <input type="text" id="phoneNumber" placeholder="Enter M-Pesa Phone Number">
+        <button id="confirmPaymentBtn">Confirm Payment</button>
+        <button id="cancelCheckoutBtn" class="danger">Cancel</button>
+    </div>
+</div>
+
+<script src="https://unpkg.com/@zxing/library@latest"></script>
+<script src="./app.js"></script>
+
+</body>
+</html>
