@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+
+<link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li onclick="showSection('dashboard')">Dashboard</li>
+            <li onclick="showSection('addProduct')">Add Product</li>
+            <li onclick="showSection('manageProducts')">Manage Products</li>
+            <li onclick="showSection('sales')">Sales History</li>
+            <li onclick="logout()">Logout</li>
+        </ul>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+        <!-- DASHBOARD SECTION -->
+        <div id="dashboard" class="section">
+            <h2>Dashboard Overview</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Total Products</h3>
+                    <p id="totalProducts">0</p>
+                </div>
+                <div class="card">
+                    <h3>Today's Sales</h3>
+                    <p id="todaySales">KES 0</p>
+                </div>
+                <div class="card">
+                    <h3>Low Stock Items</h3>
+                    <p id="lowStock">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADD PRODUCT SECTION -->
+        <div id="addProduct" class="section hidden">
+            <h2>Add New Product</h2>
+
+            <form id="productForm">
+                <input type="text" placeholder="Product Name" id="productName" required>
+                <input type="text" placeholder="Barcode" id="productBarcode" required>
+                <input type="number" placeholder="Price" id="productPrice" required>
+                <input type="number" placeholder="Stock Quantity" id="productStock" required>
+                <input type="file" id="productImage">
+
+                <button type="submit">Add Product</button>
+            </form>
+        </div>
+
+        <!-- MANAGE PRODUCTS SECTION -->
+        <div id="manageProducts" class="section hidden">
+            <h2>Manage Products</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Barcode</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="productTable">
+                    <!-- Products will load here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SALES SECTION -->
+        <div id="sales" class="section hidden">
+            <h2>Sales History</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Phone</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="salesTable">
+                    <!-- Sales will load here -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script src="./admin.js"></script>
+</body>
+</html>
