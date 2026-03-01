@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Supermarket POS</title>
+
+<link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+<header>
+    <h2>Smart Supermarket POS</h2>
+    <a href="admin.html" class="admin-link">Admin Panel</a>
+</header>
+
+<div class="container">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+
+        <h3>Scan Product</h3>
+
+        <input type="text" id="barcodeInput" placeholder="Scan or Enter Barcode">
+        <button onclick="searchProduct()">Search Product</button>
+
+        <h4>Upload Barcode Image</h4>
+        <input type="file" id="barcodeImage">
+
+        <div class="product-display" id="productDisplay">
+            <h4>Product Details</h4>
+            <p>No product selected</p>
+        </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+
+        <h3>Cart</h3>
+        <div id="cartList"></div>
+
+        <div class="total">
+            Total: KES <span id="totalAmount">0</span>
+        </div>
+
+        <button class="checkout-btn" onclick="openCheckout()">Pay with M-Pesa</button>
+
+    </div>
+
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkoutModal">
+    <div class="modal-content">
+        <h3>Checkout</h3>
+        <p>Total: KES <span id="modalTotal"></span></p>
+        <input type="text" id="phoneNumber" placeholder="Enter M-Pesa Phone Number">
+        <button onclick="processPayment()">Confirm Payment</button>
+        <button onclick="closeCheckout()" class="cancel-btn">Cancel</button>
+    </div>
+</div>
+
+<script src="./app.js"></script>
+</body>
+</html>
