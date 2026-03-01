@@ -35,3 +35,15 @@ A distributed retail platform featuring a barcode-scanning client interface and 
 1. **Clone the repository:**
    ```bash
    git clone [https://github.com/PrudenceMatrix/Distributed_AI-Driven_Retail_intelligence_platform-DAIRIP-.git](https://github.com/PrudenceMatrix/Distributed_AI-Driven_Retail_intelligence_platform-DAIRIP-.git)
+
+
+#### Option 2: HTTPS (Recommended for Proxy Users)
+If you are behind a corporate proxy (e.g., `192.168.180.13:8080`), use this method:
+
+1. **Configure Git Proxy:**
+   ```bash
+   git config --global http.proxy [http://192.168.180.13:8080](http://192.168.180.13:8080)
+   git config --global https.proxy [http://192.168.180.13:8080](http://192.168.180.13:8080)
+
+
+
