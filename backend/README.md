@@ -81,36 +81,3 @@ Event Dispatcher
     ├── Projection Handlers (updates inventory read model)
     └── Redis Pub/Sub (async consumers)
 ```
-
-## Project Structure
-
-```
-app/
-├── main.py              # FastAPI app + startup
-├── config.py            # Settings
-├── database.py          # SQLAlchemy engine + session
-├── models/              # SQLAlchemy ORM models
-│   ├── product.py
-│   ├── user.py
-│   ├── event_store.py   # ← Core: append-only event log
-│   ├── inventory.py     # ← Read model (projection)
-│   └── forecast.py      # Demand forecasts + pricing rules
-├── events/
-│   ├── types.py         # Domain event definitions
-│   ├── store.py         # EventStoreService (append + query)
-│   └── dispatcher.py    # Routes events to handlers + Redis
-├── projections/
-│   └── inventory_projection.py  # Projection handlers
-├── services/
-│   └── inventory_service.py     # Business logic
-├── routers/             # FastAPI route handlers
-├── auth/                # JWT + RBAC
-└── core/
-    └── exceptions.py    # Domain exceptions
-```
-
-## Next Steps (implement during hackathon)
-- [ ] AI demand forecasting endpoint (`/api/v1/forecast/{product_id}`)
-- [ ] Perishable optimization engine (`/api/v1/perishable/optimize`)
-- [ ] Multi-branch inventory summary
-- [ ] Order aggregate + OrderCreated/Completed events
