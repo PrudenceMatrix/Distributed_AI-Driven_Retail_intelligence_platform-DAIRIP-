@@ -23,6 +23,7 @@ header {
     display: flex;
     gap: 20px;
     padding: 20px;
+    flex-direction: column;
 }
 
 .left-panel, .right-panel {

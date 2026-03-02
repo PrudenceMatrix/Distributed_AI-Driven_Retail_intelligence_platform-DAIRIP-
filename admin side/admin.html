@@ -12,7 +12,7 @@
 <div class="dashboard">
 
     <!-- SIDEBAR -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <h2>Admin Panel</h2>
         <ul>
             <li onclick="showSection('dashboard')">Dashboard</li>
@@ -25,6 +25,12 @@
 
     <!-- MAIN CONTENT -->
     <div class="main-content">
+
+        <!-- TOPBAR (NEW - Hamburger Menu) -->
+        <div class="topbar">
+            <button id="menuToggle" class="menu-btn">&#9776;</button>
+            <h3>Admin Dashboard</h3>
+        </div>
 
         <!-- DASHBOARD SECTION -->
         <div id="dashboard" class="section">
@@ -64,40 +70,42 @@
         <div id="manageProducts" class="section hidden">
             <h2>Manage Products</h2>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Barcode</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="productTable">
-                    <!-- Products will load here -->
-                </tbody>
-            </table>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Barcode</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTable">
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- SALES SECTION -->
         <div id="sales" class="section hidden">
             <h2>Sales History</h2>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Transaction ID</th>
-                        <th>Phone</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody id="salesTable">
-                    <!-- Sales will load here -->
-                </tbody>
-            </table>
+            <div class="table-wrapper"> 
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Phone</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="salesTable">
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
