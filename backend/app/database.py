@@ -33,4 +33,5 @@ def create_all_tables():
     from app.models.event_store import EventStore                 # noqa: F401
     from app.models.inventory import InventoryProjection          # noqa: F401
     from app.models.forecast import DemandForecast, IdempotencyKey, PricingRule  # noqa: F401
+    from app.models.order import Order, OrderItem  # noqa: F401
     Base.metadata.create_all(bind=engine)

@@ -1,6 +1,21 @@
+# Python
 __pycache__/
-*.pyc
-.env
+*.py[cod]
+*.pyo
+.Python
 *.egg-info/
+
+# Environment
+.env
+*.env
+
+# Database
+*.db
+*.sqlite3
+
+# IDE
 .vscode/
+.idea/
+
+# Docker volumes
 mysql_data/

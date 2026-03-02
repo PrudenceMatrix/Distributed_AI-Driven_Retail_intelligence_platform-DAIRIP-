@@ -49,6 +49,7 @@ if not manager:
 products = [
     Product(
         id=str(uuid.uuid4()),
+        barcode="5000117100481",
         name="Whole Milk 1L",
         sku="DAIRY-MILK-1L",
         category="Dairy",
@@ -59,6 +60,7 @@ products = [
     ),
     Product(
         id=str(uuid.uuid4()),
+        barcode="5010123001234",
         name="Sourdough Bread",
         sku="BAKERY-SOUR-400G",
         category="Bakery",
@@ -69,6 +71,7 @@ products = [
     ),
     Product(
         id=str(uuid.uuid4()),
+        barcode="8076800195057",
         name="Pasta 500g",
         sku="DRY-PASTA-500G",
         category="Dry Goods",
@@ -78,6 +81,7 @@ products = [
     ),
     Product(
         id=str(uuid.uuid4()),
+        barcode="5000000501234",
         name="Chicken Breast 500g",
         sku="MEAT-CHKN-500G",
         category="Meat",

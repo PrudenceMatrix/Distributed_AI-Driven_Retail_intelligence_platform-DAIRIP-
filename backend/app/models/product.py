@@ -17,6 +17,7 @@ class Product(Base):
     is_perishable: Mapped[bool] = mapped_column(Boolean, default=False)
     base_price: Mapped[float] = mapped_column(Float, nullable=False)
     current_price: Mapped[float] = mapped_column(Float, nullable=False)
+    barcode: Mapped[str | None] = mapped_column(String(100), unique=True, nullable=True, index=True)
     expiry_days: Mapped[int | None] = mapped_column(nullable=True)  # shelf life in days
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, nullable=False
