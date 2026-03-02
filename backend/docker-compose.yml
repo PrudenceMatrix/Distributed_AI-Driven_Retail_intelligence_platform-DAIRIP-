@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: dairip_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: dairip_db
+      MYSQL_USER: dairip_user
+      MYSQL_PASSWORD: dairip_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: dairip_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: dairip_backend
+    environment:
+      DATABASE_URL: mysql+pymysql://dairip_user:dairip_pass@db:3306/dairip_db
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: hackathon-secret-key-change-before-demo
+      DEBUG: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  mysql_data:
