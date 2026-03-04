@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In — Triple O Supermarket</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+  <body>
+    <div class="login-layout">
+      <!-- LEFT PANEL -->
+      <div class="login-left">
+        <a href="index.html" class="login-brand">
+          <span class="brand-icon">🛒</span>
+          <div>
+            <div class="brand-name">Triple O</div>
+            <div class="brand-tagline">Supermarket</div>
+          </div>
+        </a>
+        <div class="login-left-content">
+          <h2>Smart retail,<br />simplified.</h2>
+          <p>
+            Real-time inventory, AI-powered forecasting, and a POS system built
+            for how your team actually works.
+          </p>
+          <div class="login-features">
+            <div class="login-feature">
+              <span></span> Real-time inventory tracking
+            </div>
+            <div
+              class="login-back"
+              style="
+                margin-top: 12px;
+                text-align: center;
+                font-size: 13px;
+                color: var(--text-muted);
+              "
+            >
+              New staff member?
+              <a
+                href="register.html"
+                style="color: var(--green); font-weight: 500"
+                >Create an account</a
+              >
+            </div>
+            <div class="login-feature"><span></span> AI demand forecasting</div>
+            <div class="login-feature">
+              <span></span> M-Pesa checkout support
+            </div>
+            <div class="login-feature">
+              <span></span> Automated perishable pricing
+            </div>
+          </div>
+        </div>
+        <div class="login-left-footer">
+          <span class="status-dot green pulse"></span>
+          <span id="sysStatus">Connecting...</span>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL -->
+      <div class="login-right">
+        <div class="login-card animate-fade-up">
+          <div class="login-card-header">
+            <h3>Welcome back</h3>
+            <p>Sign in to your account to continue</p>
+          </div>
+
+          <div
+            id="loginError"
+            class="alert alert-error"
+            style="display: none; margin-bottom: 16px"
+          >
+            <span class="alert-icon">✕</span>
+            <span id="loginErrorText"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">Email address</label>
+            <input
+              class="form-control"
+              type="email"
+              id="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              autofocus
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <div class="password-wrap">
+              <input
+                class="form-control"
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                onkeydown="if (event.key === 'Enter') doLogin();"
+              />
+              <button
+                class="password-toggle"
+                onclick="togglePassword()"
+                id="pwToggle"
+                type="button"
+              >
+                👁
+              </button>
+            </div>
+          </div>
+
+          <button
+            class="btn btn-primary btn-full btn-lg"
+            id="loginBtn"
+            onclick="doLogin()"
+          >
+            Sign In
+          </button>
+
+          <div class="login-back">
+            <a href="index.html">← Back to home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/login.js"></script>
+  </body>
+</html>

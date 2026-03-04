@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Triple O</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">🛒</span>
+      <div>
+        <div class="sidebar-brand-name">Triple O</div>
+        <div class="sidebar-brand-sub">Admin Portal</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a class="nav-link active" data-section="overview" onclick="showSection('overview',this)">
+        <span class="nav-icon">⬡</span> Dashboard
+      </a>
+
+      <div class="nav-section-label">Inventory</div>
+      <a class="nav-link" data-section="products" onclick="showSection('products',this)">
+        <span class="nav-icon">📦</span> Products
+      </a>
+      <a class="nav-link" data-section="stock" onclick="showSection('stock',this)">
+        <span class="nav-icon">📊</span> Stock Levels
+      </a>
+      <a class="nav-link" data-section="receive" onclick="showSection('receive',this)">
+        <span class="nav-icon">↓</span> Receive Stock
+      </a>
+
+      <div class="nav-section-label">AI Engine</div>
+      <a class="nav-link" data-section="forecast" onclick="showSection('forecast',this)">
+        <span class="nav-icon">🤖</span> Demand Forecast
+      </a>
+      <a class="nav-link" data-section="perishable" onclick="showSection('perishable',this)">
+        <span class="nav-icon">⚠️</span> Perishable Alerts
+      </a>
+      <a class="nav-link" data-section="pricing" onclick="showSection('pricing',this)">
+        <span class="nav-icon">🏷️</span> Pricing Rules
+      </a>
+
+      <div class="nav-section-label">System</div>
+      <a class="nav-link" data-section="events" onclick="showSection('events',this)">
+        <span class="nav-icon">📋</span> Event Log
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="user-avatar" data-user-initial>A</div>
+        <div class="user-info">
+          <div class="user-email" data-user-email>admin@triple-o.com</div>
+          <div class="user-role" data-user-role>Admin</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="logout()" title="Sign out">⏻</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-area">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-right flex items-center gap-12">
+        <div class="branch-pill">Branch-001</div>
+        <div class="time-display" id="clock">--:--</div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="content" id="mainContent">
+
+      <!-- ── OVERVIEW ── -->
+      <section id="sec-overview" class="section active">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Dashboard</div>
+            <div class="page-subtitle">Live overview of Triple O Supermarket</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="loadOverview()">↺ Refresh</button>
+        </div>
+
+        <div class="grid-4" id="overviewStats" style="margin-bottom:24px;">
+          <div class="stat-card">
+            <div class="flex justify-between items-center" style="margin-bottom:12px;">
+              <div class="stat-label">Total Products</div>
+              <div class="stat-icon green">📦</div>
+            </div>
+            <div class="stat-value green" id="stat-products">—</div>
+            <div class="stat-change">In catalog</div>
+          </div>
+          <div class="stat-card">
+            <div class="flex justify-between items-center" style="margin-bottom:12px;">
+              <div class="stat-label">Perishable Items</div>
+              <div class="stat-icon amber">⏱</div>
+            </div>
+            <div class="stat-value warning" id="stat-perishable">—</div>
+            <div class="stat-change">Need monitoring</div>
+          </div>
+          <div class="stat-card">
+            <div class="flex justify-between items-center" style="margin-bottom:12px;">
+              <div class="stat-label">Active Discounts</div>
+              <div class="stat-icon red">🏷</div>
+            </div>
+            <div class="stat-value danger" id="stat-discounts">—</div>
+            <div class="stat-change">AI-applied</div>
+          </div>
+          <div class="stat-card">
+            <div class="flex justify-between items-center" style="margin-bottom:12px;">
+              <div class="stat-label">Recent Events</div>
+              <div class="stat-icon blue">📋</div>
+            </div>
+            <div class="stat-value info" id="stat-events">—</div>
+            <div class="stat-change">Last 24 hours</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Recent Activity</div>
+              <button class="btn btn-ghost btn-sm" onclick="loadRecentEvents()">↺</button>
+            </div>
+            <div id="recentEvents">
+              <div class="empty-state"><span class="spinner"></span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Active Pricing Rules</div>
+              <button class="btn btn-ghost btn-sm" onclick="loadPricingRulesWidget()">↺</button>
+            </div>
+            <div id="pricingWidget">
+              <div class="empty-state"><span class="spinner"></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── PRODUCTS ── -->
+      <section id="sec-products" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Products</div>
+            <div class="page-subtitle">Manage your product catalog</div>
+          </div>
+          <button class="btn btn-primary" onclick="openModal('addProductModal')">+ Add Product</button>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">All Products</div>
+            <div class="search-bar">
+              <input class="form-control" placeholder="Search by name or SKU..." oninput="filterProducts(this.value)" id="productSearch"/>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>SKU</th>
+                  <th>Barcode</th>
+                  <th>Category</th>
+                  <th>Base Price</th>
+                  <th>Current Price</th>
+                  <th>Type</th>
+                </tr>
+              </thead>
+              <tbody id="productsTable">
+                <tr><td colspan="7" class="td-loading"><span class="spinner spinner-sm"></span> Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── STOCK ── -->
+      <section id="sec-stock" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Stock Levels</div>
+            <div class="page-subtitle">Current inventory — Branch 001</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="loadStock()">↺ Refresh</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Available</th>
+                  <th>Reserved</th>
+                  <th>Current Price</th>
+                  <th>Status</th>
+                  <th>Quick Receive</th>
+                </tr>
+              </thead>
+              <tbody id="stockTable">
+                <tr><td colspan="6" class="td-loading"><span class="spinner spinner-sm"></span> Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── RECEIVE STOCK ── -->
+      <section id="sec-receive" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Receive Stock</div>
+            <div class="page-subtitle">Record incoming inventory deliveries</div>
+          </div>
+        </div>
+        <div class="card" style="max-width:520px;">
+          <div class="card-header"><div class="card-title">New Delivery</div></div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Product</label>
+              <select class="form-control" id="receiveProductId"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Branch ID</label>
+              <input class="form-control" id="receiveBranchId" value="branch-001"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quantity Received</label>
+              <input class="form-control" type="number" id="receiveQty" placeholder="e.g. 100" min="1"/>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="doReceive()">Confirm Receipt</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── FORECAST ── -->
+      <section id="sec-forecast" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Demand Forecast</div>
+            <div class="page-subtitle">AI-generated 7-day demand predictions</div>
+          </div>
+        </div>
+        <div class="card" style="max-width:640px;margin-bottom:20px;">
+          <div class="card-header"><div class="card-title">Run Forecast</div></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Product</label>
+                <select class="form-control" id="forecastProductId"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Branch ID</label>
+                <input class="form-control" id="forecastBranchId" value="branch-001"/>
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="doForecast()">Generate Forecast</button>
+          </div>
+        </div>
+        <div id="forecastResult" style="display:none;">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header"><div class="card-title">7-Day Prediction</div></div>
+              <div class="card-body" id="forecastBars"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Reorder Analysis</div></div>
+              <div class="card-body" id="forecastMeta"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── PERISHABLE ── -->
+      <section id="sec-perishable" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Perishable Alerts</div>
+            <div class="page-subtitle">Risk analysis and automatic discount management</div>
+          </div>
+          <button class="btn btn-primary" onclick="doPerishableAnalysis()">Run Batch Analysis</button>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Risk Assessment</div></div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Current Stock</th>
+                  <th>Predicted Demand</th>
+                  <th>Days to Expiry</th>
+                  <th>Risk Score</th>
+                  <th>Action Taken</th>
+                </tr>
+              </thead>
+              <tbody id="perishTable">
+                <tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text-muted);font-size:13px;">Click "Run Batch Analysis" to start</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── PRICING RULES ── -->
+      <section id="sec-pricing" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Pricing Rules</div>
+            <div class="page-subtitle">Active auto-generated discounts</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="loadPricingRules()">↺ Refresh</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>SKU</th>
+                  <th>Original Price</th>
+                  <th>Discounted Price</th>
+                  <th>Discount</th>
+                  <th>Risk Score</th>
+                </tr>
+              </thead>
+              <tbody id="pricingTable">
+                <tr><td colspan="6" class="td-loading"><span class="spinner spinner-sm"></span> Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── EVENTS ── -->
+      <section id="sec-events" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Event Log</div>
+            <div class="page-subtitle">Full immutable audit trail of all system events</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="loadEvents()">↺ Refresh</button>
+        </div>
+        <div class="card">
+          <div id="eventsList">
+            <div class="empty-state"><span class="spinner"></span></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ADD PRODUCT MODAL -->
+<div class="modal-overlay" id="addProductModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add New Product</div>
+      <button class="modal-close" onclick="closeModal('addProductModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Product Name</label>
+          <input class="form-control" id="p_name" placeholder="e.g. Whole Milk 1L"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">SKU</label>
+          <input class="form-control" id="p_sku" placeholder="e.g. DAIRY-MILK-1L"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Barcode</label>
+          <input class="form-control" id="p_barcode" placeholder="e.g. 5000117100481"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-control" id="p_category">
+            <option>Dairy</option><option>Bakery</option><option>Meat</option>
+            <option>Dry Goods</option><option>Produce</option><option>Beverages</option>
+            <option>Snacks</option><option>Frozen</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Base Price (KES)</label>
+          <input class="form-control" type="number" id="p_price" step="0.01" placeholder="0.00"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Expiry Days</label>
+          <input class="form-control" type="number" id="p_expiry" placeholder="Leave blank if non-perishable"/>
+        </div>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="p_perishable"/>
+        <label for="p_perishable">This product is perishable</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('addProductModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addProduct()">Add Product</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

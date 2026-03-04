@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Triple O Supermarket — Smart Retail Platform</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav class="landing-nav">
+      <div
+        class="container flex items-center justify-between"
+        style="height: 100%"
+      >
+        <div class="brand flex items-center gap-8">
+          <div class="brand-icon">🛒</div>
+          <div>
+            <div class="brand-name">Triple O</div>
+            <div class="brand-tagline">Supermarket</div>
+          </div>
+        </div>
+        <div class="nav-actions flex items-center gap-8">
+          <div class="system-status flex items-center gap-4">
+            <!-- <span class="status-dot green pulse" id="statusDot"></span> -->
+            <!-- <span class="status-text" id="statusText">Checking system...</span> -->
+          </div>
+          <a href="login.html" class="btn btn-primary">Sign In</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content animate-fade-up">
+          <div class="hero-eyebrow">
+            <span class="badge badge-green">● Live System</span>
+            <span style="font-size: 13px; color: var(--text-secondary)"
+              >Powered by AI-Driven Retail Intelligence</span
+            >
+          </div>
+          <h1 class="hero-title">
+            Welcome to<br />
+            <span class="text-green">Triple O</span> Supermarket
+          </h1>
+          <p class="hero-subtitle">
+            A modern retail management platform with real-time inventory
+            tracking, AI demand forecasting, and automated perishable pricing —
+            built for the way supermarkets actually work.
+          </p>
+          <div class="hero-actions flex gap-12" style="flex-wrap: wrap">
+            <a href="login.html" class="btn btn-primary btn-lg">
+              Sign in
+            </a>
+            <a href="#features" class="btn btn-secondary btn-lg">
+              Learn More
+            </a>
+          </div>
+        </div>
+
+        <!-- LIVE STATS STRIP -->
+        <div
+          class="stats-strip animate-fade-up"
+          style="animation-delay: 0.15s"
+          id="statsStrip"
+        >
+          <div class="strip-stat">
+            <div class="strip-value" id="strip-products">—</div>
+            <div class="strip-label">Products</div>
+          </div>
+          <div class="strip-divider"></div>
+          <div class="strip-stat">
+            <div class="strip-value" id="strip-status">Online</div>
+            <div class="strip-label">System Status</div>
+          </div>
+          <div class="strip-divider"></div>
+          <div class="strip-stat">
+            <div class="strip-value">16%</div>
+            <div class="strip-label">VAT Compliant</div>
+          </div>
+          <div class="strip-divider"></div>
+          <div class="strip-stat">
+            <div class="strip-value">M-Pesa</div>
+            <div class="strip-label">Payments Supported</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-header">
+          <h2>Everything your supermarket needs</h2>
+          <p>
+            From the moment stock arrives to when a customer pays — every step
+            tracked, every decision data-driven.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon" style="background: #dcfce7">📦</div>
+            <h4>Real-Time Inventory</h4>
+            <p>
+              Track stock levels across all branches instantly. Every sale,
+              receive, and adjustment recorded as an immutable event.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" style="background: #dbeafe">🤖</div>
+            <h4>AI Demand Forecasting</h4>
+            <p>
+              7-day demand predictions per product using historical sales data.
+              Know what to reorder before you run out.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" style="background: #fef3c7">⚡</div>
+            <h4>Smart Perishable Pricing</h4>
+            <p>
+              Automatically detects expiry risk and applies discounts before
+              products go to waste. Saves money, reduces loss.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" style="background: #f3e8ff">🔍</div>
+            <h4>Barcode POS</h4>
+            <p>
+              Cashier scans barcodes with phone camera or scanner. Cart built
+              instantly, checkout in seconds. M-Pesa ready.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" style="background: #fee2e2">📊</div>
+            <h4>Full Audit Trail</h4>
+            <p>
+              Every transaction stored as a permanent event. Replay the entire
+              history of any product at any time.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon" style="background: #dcfce7">🏢</div>
+            <h4>Multi-Branch Ready</h4>
+            <p>
+              Manage multiple branches from one platform. Each branch has
+              independent stock, events, and analytics.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROLES SECTION -->
+    <section class="roles-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Built for every role in your store</h2>
+          <p>
+            Each team member sees exactly what they need — nothing more, nothing
+            less.
+          </p>
+        </div>
+
+        <div class="roles-grid">
+          <div class="role-card">
+            <div class="role-icon">👤</div>
+            <h4>Admin</h4>
+            <p>
+              Full access. Manage products, view all analytics, configure
+              pricing rules, replay events, oversee all branches.
+            </p>
+            <ul class="role-features">
+              <li>✓ Product management</li>
+              <li>✓ AI forecasting &amp; perishable optimizer</li>
+              <li>✓ Full event log</li>
+              <li>✓ User management</li>
+            </ul>
+          </div>
+
+          <div class="role-card role-card-featured">
+            <div class="role-badge">Most Used</div>
+            <div class="role-icon">👔</div>
+            <h4>Manager</h4>
+            <p>
+              Branch-level control. Monitor stock, run perishable analysis, view
+              sales performance, receive deliveries.
+            </p>
+            <ul class="role-features">
+              <li>✓ Stock level monitoring</li>
+              <li>✓ Receive stock deliveries</li>
+              <li>✓ Perishable risk analysis</li>
+              <li>✓ Branch event log</li>
+            </ul>
+          </div>
+
+          <div class="role-card">
+            <div class="role-icon">🧾</div>
+            <h4>Cashier</h4>
+            <p>
+              Fast, focused POS. Scan barcodes, build the cart, process
+              payments. Simple enough to use without training.
+            </p>
+            <ul class="role-features">
+              <li>✓ Camera barcode scanner</li>
+              <li>✓ Cart management</li>
+              <li>✓ M-Pesa / Cash / Card</li>
+              <li>✓ Instant receipt</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px">
+          <a href="login.html" class="btn btn-primary btn-xl">Get Started →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="landing-footer">
+      <div
+        class="container flex items-center justify-between"
+        style="flex-wrap: wrap; gap: 12px"
+      >
+        <div class="flex items-center gap-8">
+          <span class="brand-name" style="font-size: 14px"
+            >Triple O Supermarket</span
+          >
+          <span style="color: var(--text-muted); font-size: 13px"
+            >Retail Intelligence Platform</span
+          >
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted)">
+          &copy; 2026 Triple O brothers. All rights reserved. <br />
+          <a
+            href="#"
+            style="color: var(--text-muted); text-decoration: underline"
+            >Privacy Policy</a
+          >
+          |
+          <a
+            href="#"
+            style="color: var(--text-muted); text-decoration: underline"
+            >Terms of Service</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>

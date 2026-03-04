@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Account — Triple O</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/login.css"/>
+</head>
+<body>
+  <div class="login-layout">
+
+    <!-- LEFT PANEL -->
+    <div class="login-left">
+      <a href="index.html" class="login-brand">
+        <span class="brand-icon">🛒</span>
+        <div>
+          <div class="brand-name">Triple O</div>
+          <div class="brand-tagline">Supermarket</div>
+        </div>
+      </a>
+      <div class="login-left-content">
+        <h2>Join the team.</h2>
+        <p>Create your staff account to access the Triple O retail management platform.</p>
+        <div class="login-features">
+          <div class="login-feature"><span>👤</span> Admin — full system access</div>
+          <div class="login-feature"><span>👔</span> Manager — inventory and AI tools</div>
+          <div class="login-feature"><span>🧾</span> Cashier — POS and checkout</div>
+        </div>
+        <div style="margin-top:28px;padding:14px;background:rgba(255,255,255,0.1);border-radius:8px;font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;">
+          Your role determines what you can access. Contact your admin if you are unsure which role to select.
+        </div>
+      </div>
+      <div class="login-left-footer">
+        <span class="status-dot green pulse"></span>
+        <span id="sysStatus">Checking system...</span>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="login-right">
+      <div class="login-card animate-fade-up">
+        <div class="login-card-header">
+          <h3>Create your account</h3>
+          <p>Fill in your details to get started</p>
+        </div>
+
+        <div id="registerError" class="alert alert-error" style="display:none;margin-bottom:16px;">
+          <span class="alert-icon">✕</span>
+          <span id="registerErrorText"></span>
+        </div>
+
+        <div id="registerSuccess" class="alert alert-success" style="display:none;margin-bottom:16px;">
+          <span class="alert-icon">✓</span>
+          <span>Account created! Redirecting to login...</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="fullName">Full Name</label>
+          <input class="form-control" type="text" id="fullName" placeholder="e.g. Jane Mwangi" autocomplete="name"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <input class="form-control" type="email" id="email" placeholder="you@example.com" autocomplete="email"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="role">Your Role</label>
+          <select class="form-control" id="role">
+            <option value="">Select your role...</option>
+            <option value="cashier">Cashier — POS and checkout</option>
+            <option value="manager">Manager — inventory and AI tools</option>
+            <option value="admin">Admin — full system access</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <div class="password-wrap">
+            <input class="form-control" type="password" id="password" placeholder="At least 8 characters"/>
+            <button class="password-toggle" onclick="togglePassword('password')" type="button">👁</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="confirmPassword">Confirm Password</label>
+          <div class="password-wrap">
+            <input
+              class="form-control"
+              type="password"
+              id="confirmPassword"
+              placeholder="Repeat your password"
+              onkeydown="if(event.key==='Enter') doRegister()"
+            />
+            <button class="password-toggle" onclick="togglePassword('confirmPassword')" type="button">👁</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-full btn-lg" id="registerBtn" onclick="doRegister()">
+          Create Account
+        </button>
+
+        <div class="login-back" style="margin-top:16px;text-align:center;font-size:13px;color:var(--text-muted);">
+          Already have an account? <a href="login.html" style="color:var(--green);font-weight:500;">Sign in</a>
+        </div>
+
+        <div class="login-back">
+          <a href="index.html">← Back to home</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/register.js"></script>
+</body>
+</html>

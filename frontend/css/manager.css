@@ -1,0 +1,2 @@
+/* manager.css — extends dashboard.css, minor overrides */
+.sidebar-brand-sub { color: var(--info) !important; }

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>POS — Triple O</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/cashier.css"/>
+</head>
+<body>
+
+<div class="pos-layout">
+
+  <!-- TOPBAR -->
+  <header class="pos-topbar">
+    <div class="pos-brand">
+      <span>🛒</span>
+      <span class="pos-brand-name">Triple O POS</span>
+    </div>
+    <div class="pos-order-badge">
+      Order: <span id="orderIdDisplay">—</span>
+    </div>
+    <div class="pos-topbar-right">
+      <div class="pos-cashier-name" id="cashierName">Cashier</div>
+      <div class="pos-time" id="clock">--:--:--</div>
+      <button class="btn btn-secondary btn-sm" onclick="logout()">Sign Out</button>
+    </div>
+  </header>
+
+  <!-- LEFT — SCANNER + CART -->
+  <div class="pos-left">
+
+    <!-- SCAN BAR -->
+    <div class="scan-bar">
+      <div class="scan-input-wrap">
+        <span class="scan-icon">▋</span>
+        <input
+          class="scan-input"
+          id="barcodeInput"
+          placeholder="Scan barcode or type it here, then press Enter"
+          autocomplete="off"
+          onkeydown="if(event.key==='Enter') handleScan()"
+        />
+        <button class="btn btn-primary" onclick="handleScan()">Add</button>
+      </div>
+      <button class="btn btn-secondary" id="cameraBtn" onclick="toggleCamera()">
+        📷 Use Camera
+      </button>
+    </div>
+
+    <!-- CAMERA -->
+    <div class="camera-container" id="cameraContainer">
+      <video id="cameraVideo" autoplay muted playsinline></video>
+      <div class="camera-overlay">
+        <div class="scan-target">
+          <div class="scan-line"></div>
+        </div>
+        <div class="camera-hint">Point camera at barcode</div>
+      </div>
+    </div>
+
+    <!-- SCAN FEEDBACK -->
+    <div class="scan-feedback" id="scanFeedback"></div>
+
+    <!-- CART HEADER -->
+    <div class="cart-header">
+      <span class="cart-title">Cart</span>
+      <span class="cart-count" id="cartCount">0 items</span>
+    </div>
+
+    <!-- CART ITEMS -->
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">
+        <div style="font-size:36px;opacity:0.3;margin-bottom:8px;">🛒</div>
+        <div style="font-size:13px;font-weight:500;color:var(--text-secondary);">Your cart is empty</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Scan a barcode to add items</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT — CHECKOUT -->
+  <div class="pos-right">
+
+    <div class="checkout-panel">
+
+      <div class="checkout-section">
+        <div class="checkout-label">Order Summary</div>
+        <div class="checkout-date" id="checkoutDate">—</div>
+      </div>
+
+      <div class="summary-lines">
+        <div class="summary-line">
+          <span>Items</span>
+          <span class="td-mono" id="summaryItems">0</span>
+        </div>
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <span class="td-mono" id="summarySubtotal">KES 0.00</span>
+        </div>
+        <div class="summary-line">
+          <span>VAT (16%)</span>
+          <span class="td-mono" id="summaryVat">KES 0.00</span>
+        </div>
+      </div>
+
+      <div class="total-box">
+        <div class="total-label">Total</div>
+        <div class="total-amount">KES <span id="summaryTotal">0.00</span></div>
+      </div>
+
+      <div class="checkout-section" style="margin-top:20px;">
+        <div class="checkout-label">Payment Method</div>
+      </div>
+
+      <div class="payment-grid">
+        <div class="payment-option selected" onclick="selectPayment('mpesa', this)" data-method="mpesa">
+          <div class="payment-icon">📱</div>
+          <div class="payment-name">M-Pesa</div>
+        </div>
+        <div class="payment-option" onclick="selectPayment('cash', this)" data-method="cash">
+          <div class="payment-icon">💵</div>
+          <div class="payment-name">Cash</div>
+        </div>
+        <div class="payment-option" onclick="selectPayment('card', this)" data-method="card">
+          <div class="payment-icon">💳</div>
+          <div class="payment-name">Card</div>
+        </div>
+      </div>
+
+      <button class="btn-checkout" id="checkoutBtn" onclick="doCheckout()" disabled>
+        Complete Sale
+      </button>
+
+      <button class="btn btn-ghost btn-full" style="margin-top:8px;" onclick="startNewOrder()">
+        + New Order
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- RECEIPT MODAL -->
+<div class="modal-overlay" id="receiptModal">
+  <div class="modal receipt-modal">
+    <div class="receipt-success-header">
+      <div class="receipt-checkmark">✓</div>
+      <div class="receipt-success-title">Payment Complete</div>
+      <div class="receipt-success-sub" id="rcptPaymentMethod">M-Pesa</div>
+    </div>
+
+    <div style="padding:20px;">
+      <div class="receipt-meta">
+        <span id="rcptOrderId" style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);"></span>
+        <span id="rcptDate" style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);"></span>
+      </div>
+
+      <div class="receipt-divider"></div>
+
+      <div id="rcptItems" class="receipt-items"></div>
+
+      <div class="receipt-divider"></div>
+
+      <div class="receipt-totals">
+        <div class="receipt-line">
+          <span>Subtotal</span>
+          <span id="rcptSubtotal" class="td-mono"></span>
+        </div>
+        <div class="receipt-line">
+          <span>VAT 16%</span>
+          <span id="rcptVat" class="td-mono"></span>
+        </div>
+        <div class="receipt-line receipt-total-line">
+          <span>Total</span>
+          <span id="rcptTotal" class="td-mono"></span>
+        </div>
+      </div>
+
+      <button class="btn-checkout" onclick="closeSale()" style="margin-top:20px;">
+        Next Customer →
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/umd/index.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cashier.js"></script>
+</body>
+</html>

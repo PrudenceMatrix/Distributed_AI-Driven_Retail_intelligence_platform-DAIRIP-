@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manager — Triple O</title>
+  <link rel="stylesheet" href="css/base.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+  <link rel="stylesheet" href="css/manager.css"/>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">🛒</span>
+      <div>
+        <div class="sidebar-brand-name">Triple O</div>
+        <div class="sidebar-brand-sub">Manager Portal</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <a class="nav-link active" onclick="showSection('overview',this)">
+        <span class="nav-icon">⬡</span> Dashboard
+      </a>
+
+      <div class="nav-section-label">Inventory</div>
+      <a class="nav-link" onclick="showSection('stock',this)">
+        <span class="nav-icon">📊</span> Stock Levels
+      </a>
+      <a class="nav-link" onclick="showSection('receive',this)">
+        <span class="nav-icon">↓</span> Receive Stock
+      </a>
+
+      <div class="nav-section-label">AI Engine</div>
+      <a class="nav-link" onclick="showSection('forecast',this)">
+        <span class="nav-icon">🤖</span> Demand Forecast
+      </a>
+      <a class="nav-link" onclick="showSection('perishable',this)">
+        <span class="nav-icon">⚠️</span> Perishable Alerts
+      </a>
+      <a class="nav-link" onclick="showSection('pricing',this)">
+        <span class="nav-icon">🏷️</span> Pricing Rules
+      </a>
+
+      <div class="nav-section-label">Activity</div>
+      <a class="nav-link" onclick="showSection('events',this)">
+        <span class="nav-icon">📋</span> Event Log
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="user-avatar" data-user-initial>M</div>
+        <div class="user-info">
+          <div class="user-email" data-user-email>manager@triple-o.com</div>
+          <div class="user-role" data-user-role>Manager</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="logout()" title="Sign out">⏻</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-right flex items-center gap-12">
+        <div class="branch-pill">Branch-001</div>
+        <div class="time-display" id="clock">--:--</div>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- ── OVERVIEW ── -->
+      <section id="sec-overview" class="section active">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Branch Overview</div>
+            <div class="page-subtitle">Branch 001 — Live snapshot</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="loadOverview()">↺ Refresh</button>
+        </div>
+
+        <div class="grid-4" style="margin-bottom:24px;">
+          <div class="stat-card">
+            <div class="flex justify-between items-center" style="margin-bottom:12px;">
+              <div class="stat-label">Total Products</div>
+              <div class="stat-icon green">📦</div>
+            </div>
+            <div class="stat-value green" id="stat-products">—</div>
+            <div class="stat-change">In catalog</div>
+          </div>
+          <div class="stat-card">
+            <div class="flex justify-between items-center" style="margin-bottom:12px;">
+              <div class="stat-label">Low Stock Items</div>
+              <div class="stat-icon red">⚠</div>
+            </div>
+            <div class="stat-value danger" id="stat-lowstock">—</div>
+            <div class="stat-change">Below 10 units</div>
+          </div>
+          <div class="stat-card">
+            <div class="flex justify-between items-center" style="margin-bottom:12px;">
+              <div class="stat-label">Active Discounts</div>
+              <div class="stat-icon amber">🏷</div>
+            </div>
+            <div class="stat-value warning" id="stat-discounts">—</div>
+            <div class="stat-change">AI-applied pricing</div>
+          </div>
+          <div class="stat-card">
+            <div class="flex justify-between items-center" style="margin-bottom:12px;">
+              <div class="stat-label">Perishables</div>
+              <div class="stat-icon blue">⏱</div>
+            </div>
+            <div class="stat-value info" id="stat-perishable">—</div>
+            <div class="stat-change">Need monitoring</div>
+          </div>
+        </div>
+
+        <!-- STOCK SUMMARY TABLE -->
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div class="card-title">Stock Summary</div>
+            <button class="btn btn-ghost btn-sm" onclick="loadStockSummary()">↺</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Available</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="overviewStock">
+                <tr><td colspan="4" class="td-loading"><span class="spinner spinner-sm"></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- RECENT EVENTS -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Recent Activity</div>
+            <button class="btn btn-ghost btn-sm" onclick="loadRecentEvents()">↺</button>
+          </div>
+          <div id="recentEvents">
+            <div class="empty-state"><span class="spinner"></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── STOCK LEVELS ── -->
+      <section id="sec-stock" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Stock Levels</div>
+            <div class="page-subtitle">Full inventory view — Branch 001</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="loadStock()">↺ Refresh</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Available</th>
+                  <th>Reserved</th>
+                  <th>Current Price</th>
+                  <th>Status</th>
+                  <th>Quick Receive</th>
+                </tr>
+              </thead>
+              <tbody id="stockTable">
+                <tr><td colspan="6" class="td-loading"><span class="spinner spinner-sm"></span> Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── RECEIVE STOCK ── -->
+      <section id="sec-receive" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Receive Stock</div>
+            <div class="page-subtitle">Record incoming deliveries</div>
+          </div>
+        </div>
+        <div class="card" style="max-width:520px;">
+          <div class="card-header"><div class="card-title">New Delivery</div></div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Product</label>
+              <select class="form-control" id="receiveProductId"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quantity Received</label>
+              <input class="form-control" type="number" id="receiveQty" placeholder="e.g. 100" min="1"/>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="doReceive()">Confirm Receipt</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── FORECAST ── -->
+      <section id="sec-forecast" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Demand Forecast</div>
+            <div class="page-subtitle">AI-generated 7-day predictions per product</div>
+          </div>
+        </div>
+        <div class="card" style="max-width:640px;margin-bottom:20px;">
+          <div class="card-header"><div class="card-title">Select Product</div></div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label">Product</label>
+              <select class="form-control" id="forecastProductId"></select>
+            </div>
+            <button class="btn btn-primary" onclick="doForecast()">Generate Forecast</button>
+          </div>
+        </div>
+        <div id="forecastResult" style="display:none;">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header"><div class="card-title">7-Day Prediction</div></div>
+              <div class="card-body" id="forecastBars"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Reorder Analysis</div></div>
+              <div class="card-body" id="forecastMeta"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── PERISHABLE ── -->
+      <section id="sec-perishable" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Perishable Alerts</div>
+            <div class="page-subtitle">Expiry risk analysis and auto-discount engine</div>
+          </div>
+          <button class="btn btn-primary" onclick="doPerishableAnalysis()">Run Analysis</button>
+        </div>
+
+        <div class="alert alert-info" style="margin-bottom:20px;">
+          <span class="alert-icon">ℹ</span>
+          <span>The AI engine scores each perishable product by risk. High-risk items automatically get discounts applied to prevent waste.</span>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">Risk Assessment</div></div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Stock</th>
+                  <th>Predicted Demand</th>
+                  <th>Days to Expiry</th>
+                  <th>Risk Score</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="perishTable">
+                <tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted);font-size:13px;">
+                  Click "Run Analysis" to check all perishable products
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── PRICING RULES ── -->
+      <section id="sec-pricing" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Pricing Rules</div>
+            <div class="page-subtitle">Auto-generated discounts from AI perishable optimizer</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="loadPricingRules()">↺ Refresh</button>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>SKU</th>
+                  <th>Original Price</th>
+                  <th>Sale Price</th>
+                  <th>Discount</th>
+                  <th>Risk Score</th>
+                </tr>
+              </thead>
+              <tbody id="pricingTable">
+                <tr><td colspan="6" class="td-loading"><span class="spinner spinner-sm"></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── EVENTS ── -->
+      <section id="sec-events" class="section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Event Log</div>
+            <div class="page-subtitle">All branch transactions — immutable audit trail</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="loadEvents()">↺ Refresh</button>
+        </div>
+        <div class="card">
+          <div id="eventsList">
+            <div class="empty-state"><span class="spinner"></span></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/manager.js"></script>
+</body>
+</html>
